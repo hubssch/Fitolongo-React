@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Calendar from './Calendar';
 import WorkoutForm from './WorkoutForm';
 import { supabase } from '../supabaseClient.js';
+import { format } from 'date-fns'; // Import biblioteki do formatowania daty
 
 export default function ExerciseJournal() {
     const [selectedDate, setSelectedDate] = useState(null);
@@ -13,10 +14,13 @@ export default function ExerciseJournal() {
     };
 
     const fetchWorkouts = async (date) => {
+        // Formatowanie daty do formatu 'YYYY-MM-DD'
+        const formattedDate = format(date, 'yyyy-MM-dd');
+
         const { data, error } = await supabase
             .from('workouts')
             .select('*')
-            .eq('date', date);
+            .eq('date', formattedDate); // Używamy sformatowanej daty
 
         if (error) {
             console.error('Błąd przy pobieraniu treningów:', error);
