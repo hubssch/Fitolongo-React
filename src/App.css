@@ -43,3 +43,25 @@
 .read-the-docs {
   color: #888;
 }
+
+.calendar-container {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.calendar-header {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+
+.calendar-grid div {
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+}
