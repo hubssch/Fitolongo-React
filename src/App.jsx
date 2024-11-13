@@ -28,7 +28,7 @@ function App() {
       )}
 
       {activeView === 'exercise' && <ExerciseJournal onBack={goHome} />}
-      {activeView === 'trainers' && <TrainersList />}
+      {activeView === 'trainers' && <TrainersList onBack={goHome} />}
     </div>
   );
 }
