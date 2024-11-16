@@ -9,7 +9,7 @@ export default function Header() {
                         Fitolongo
                     </h1>
                 </div>
-                <RegisterButton />
+                {/* <RegisterButton /> */}
             </div></div>
 
     );

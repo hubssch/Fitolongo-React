@@ -7,6 +7,7 @@ import TrainersBox from './Components/TrainersBox';
 import DarkModeToggle from './Components/DarkModeToggle';
 import ExerciseJournal from './Components/ExerciseJournal';
 import TrainersList from './Components/TrainerList';
+import RegisterButton from './Components/RegisterButton';
 
 function App() {
   const [activeView, setActiveView] = useState('home');
@@ -18,6 +19,7 @@ function App() {
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-all duration-300">
       <Header />
+      <RegisterButton />
       <DarkModeToggle />
 
       {activeView === 'home' && (

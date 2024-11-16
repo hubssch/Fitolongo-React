@@ -1,84 +1,31 @@
-import React, { useState } from 'react';
-import { supabase } from '../supabaseClient';
+import { useState, useEffect } from 'react'
+import { createClient } from '@supabase/supabase-js'
+import { Auth } from '@supabase/auth-ui-react'
+import { ThemeSupa } from '@supabase/auth-ui-shared'
 
-export default function RegisterWindow({ onClose }) {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(false);
+const supabase = createClient('https://sgjwqdbghcsgwtkbpmxt.supabase.co', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNnandxZGJnaGNzZ3d0a2JwbXh0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzEyNDM5ODQsImV4cCI6MjA0NjgxOTk4NH0.Vo7mEJbZYa9tj-AHI5bTqAT1ndbBMHqIbdabQjwMvwM")
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+export default function RegisterWindow() {
+    const [session, setSession] = useState(null)
 
-        setLoading(true);
-        setError(null);
+    useEffect(() => {
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            setSession(session)
+        })
 
-        try {
-            const { user, error } = await supabase.auth.signUp({
-                email,
-                password,
-            });
+        const {
+            data: { subscription },
+        } = supabase.auth.onAuthStateChange((_event, session) => {
+            setSession(session)
+        })
 
-            if (error) {
-                setError(error.message);
-                setLoading(false);
-                return;
-            }
+        return () => subscription.unsubscribe()
+    }, [])
 
-            console.log('User registered:', user);
-            onClose(); // Zamknij formularz po rejestracji
-        } catch (err) {
-            setError('Coś poszło nie tak, spróbuj ponownie.');
-            setLoading(false);
-        }
-    };
-
-    return (
-        <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
-            <div className="bg-white p-6 rounded-md shadow-md w-96">
-                <h2 className="text-2xl font-semibold mb-4">Zarejestruj się</h2>
-                {error && <div className="text-red-500 mb-4">{error}</div>}
-                <form onSubmit={handleSubmit}>
-                    <div className="mb-4">
-                        <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
-                        <input
-                            type="email"
-                            id="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-md"
-                            required
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <label htmlFor="password" className="block text-sm font-medium text-gray-700">Hasło</label>
-                        <input
-                            type="password"
-                            id="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-md"
-                            required
-                        />
-                    </div>
-                    <div className="flex justify-between items-center">
-                        <button
-                            type="submit"
-                            disabled={loading}
-                            className="bg-green-500 text-white px-6 py-2 rounded-md text-xl font-semibold transition-all duration-300 hover:bg-green-400 focus:outline-none focus:ring-2 focus:ring-green-600"
-                        >
-                            {loading ? 'Rejestracja...' : 'Zarejestruj się'}
-                        </button>
-                        <button
-                            type="button"
-                            onClick={onClose}
-                            className="text-sm text-gray-500 hover:text-gray-700"
-                        >
-                            Anuluj
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    );
+    if (!session) {
+        return (<Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} theme="dark" showLinks={false} />)
+    }
+    else {
+        return (<div>Logged in!</div>)
+    }
 }
