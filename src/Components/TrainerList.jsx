@@ -2,26 +2,22 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../supabaseClient';
 
-export default function TrainersList() {
+export default function TrainersList({ onBack, onTrainerClick }) {
     const [trainers, setTrainers] = useState([]);
     const [filters, setFilters] = useState({
         location: '',
         gym_location: '',
         specialization: '',
         experience: '',
-        rating: ''
+        rating: '',
     });
 
-    // Predefiniowane wartości do filtrowania
-    const locations = ['Warszawa', 'Kraków', 'Poznań', 'Wrocław'];
-    const gymLocations = ['Gym XYZ', 'Fit Center', 'Body Gym', 'Power House'];
-    const specializations = ['Trening siłowy', 'Fitness', 'Joga', 'Pilates'];
-
-    // Funkcja do pobrania listy trenerów z filtrowaniem
+    // Pobieranie i filtrowanie danych
     useEffect(() => {
         const fetchTrainers = async () => {
             let query = supabase.from('trainers').select('*');
 
+            // Dodajemy filtry do zapytania
             if (filters.location) {
                 query = query.eq('location', filters.location);
             }
@@ -47,14 +43,14 @@ export default function TrainersList() {
         };
 
         fetchTrainers();
-    }, [filters]);
+    }, [filters]);  // Funkcja będzie uruchamiana po każdej zmianie filtrów
 
     // Aktualizacja wartości filtrów
     const handleFilterChange = (e) => {
         const { name, value } = e.target;
         setFilters((prevFilters) => ({
             ...prevFilters,
-            [name]: value
+            [name]: value,
         }));
     };
 
@@ -62,16 +58,13 @@ export default function TrainersList() {
         <div className="bg-white p-6 rounded-lg shadow-md text-center dark:bg-gray-900 dark:text-white">
             <button
                 className="text-green-500 dark:text-green-300 mb-4"
-                onClick={() => window.location.reload()}
+                onClick={onBack}
             >
-                Powrót do strony głównej
+                Powrót
             </button>
             <h2 className="text-2xl font-semibold mb-4 text-green-800 dark:text-green-400">
                 Lista Trenerów
             </h2>
-            <p className="text-gray-700 dark:text-gray-300">
-                Znajdź trenera, który pomoże Ci osiągnąć cele!
-            </p>
 
             {/* Formularz filtrowania */}
             <div className="filter-form mt-4 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg mb-4 shadow">
@@ -85,9 +78,10 @@ export default function TrainersList() {
                         className="p-2 rounded-md"
                     >
                         <option value="">Wybierz lokalizację</option>
-                        {locations.map((loc) => (
-                            <option key={loc} value={loc}>{loc}</option>
-                        ))}
+                        <option value="Warszawa">Warszawa</option>
+                        <option value="Kraków">Kraków</option>
+                        <option value="Poznań">Poznań</option>
+                        <option value="Wrocław">Wrocław</option>
                     </select>
 
                     {/* Wybór siłowni */}
@@ -98,9 +92,10 @@ export default function TrainersList() {
                         className="p-2 rounded-md"
                     >
                         <option value="">Wybierz siłownię</option>
-                        {gymLocations.map((gym) => (
-                            <option key={gym} value={gym}>{gym}</option>
-                        ))}
+                        <option value="Gym XYZ">Gym XYZ</option>
+                        <option value="Fit Center">Fit Center</option>
+                        <option value="Body Gym">Body Gym</option>
+                        <option value="Power House">Power House</option>
                     </select>
 
                     {/* Wybór specjalizacji */}
@@ -111,9 +106,10 @@ export default function TrainersList() {
                         className="p-2 rounded-md"
                     >
                         <option value="">Wybierz specjalizację</option>
-                        {specializations.map((spec) => (
-                            <option key={spec} value={spec}>{spec}</option>
-                        ))}
+                        <option value="Trening siłowy">Trening siłowy</option>
+                        <option value="Fitness">Fitness</option>
+                        <option value="Joga">Joga</option>
+                        <option value="Pilates">Pilates</option>
                     </select>
 
                     {/* Doświadczenie */}
@@ -143,7 +139,11 @@ export default function TrainersList() {
             <div className="trainer-list mt-4">
                 {trainers.length ? (
                     trainers.map((trainer) => (
-                        <div key={trainer.id} className="trainer-card p-4 bg-gray-100 dark:bg-gray-800 rounded-lg mb-4 shadow">
+                        <div
+                            key={trainer.id}
+                            onClick={() => onTrainerClick(trainer.id)}
+                            className="trainer-card p-4 bg-gray-100 dark:bg-gray-800 rounded-lg mb-4 shadow cursor-pointer"
+                        >
                             {trainer.profile_image_url ? (
                                 <img
                                     src={trainer.profile_image_url}
@@ -153,12 +153,11 @@ export default function TrainersList() {
                             ) : (
                                 <div className="w-20 h-20 rounded-full mx-auto mb-2 bg-gray-300 dark:bg-gray-600" />
                             )}
-                            <p className="font-bold">{trainer.first_name} {trainer.last_name}</p>
+                            <p className="font-bold">
+                                {trainer.first_name} {trainer.last_name}
+                            </p>
                             <p>{trainer.location}</p>
                             <p>{trainer.gym_location}</p>
-                            <p>Specjalizacja: {trainer.specialization}</p>
-                            <p>Doświadczenie: {trainer.experience} lata</p>
-                            <p>Ocena: {trainer.ratings}</p>
                         </div>
                     ))
                 ) : (

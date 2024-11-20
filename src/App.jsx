@@ -7,13 +7,19 @@ import TrainersBox from './Components/TrainersBox';
 import DarkModeToggle from './Components/DarkModeToggle';
 import ExerciseJournal from './Components/ExerciseJournal';
 import TrainersList from './Components/TrainerList';
+import TrainerProfile from './Components/TrainerProfile';
 import RegisterButton from './Components/RegisterButton';
 
 function App() {
   const [activeView, setActiveView] = useState('home');
+  const [activeTrainerId, setActiveTrainerId] = useState(null);
 
   const showExerciseJournal = () => setActiveView('exercise');
   const showTrainersList = () => setActiveView('trainers');
+  const showTrainerProfile = (id) => {
+    setActiveTrainerId(id);
+    setActiveView('trainerProfile');
+  };
   const goHome = () => setActiveView('home');
 
   return (
@@ -30,7 +36,12 @@ function App() {
       )}
 
       {activeView === 'exercise' && <ExerciseJournal onBack={goHome} />}
-      {activeView === 'trainers' && <TrainersList onBack={goHome} />}
+      {activeView === 'trainers' && (
+        <TrainersList onBack={goHome} onTrainerClick={showTrainerProfile} />
+      )}
+      {activeView === 'trainerProfile' && (
+        <TrainerProfile id={activeTrainerId} onBack={() => setActiveView('trainers')} />
+      )}
     </div>
   );
 }
