@@ -48,7 +48,7 @@ export default function ExerciseJournal() {
             {selectedDate && (
                 <div className="mt-4">
                     <WorkoutForm selectedDate={selectedDate} onWorkoutAdded={handleWorkoutAdded} />
-                    <div className="mt-4">
+                    <div className="mt-4" >
                         <h3 className="text-xl font-semibold">Lista ćwiczeń:</h3>
                         {workouts.map((workout) => (
                             <div key={workout.id} className="p-2 bg-white dark:bg-gray-700 rounded-lg mb-2 shadow-md">

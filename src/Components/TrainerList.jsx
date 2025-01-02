@@ -67,7 +67,7 @@ export default function TrainersList({ onBack, onTrainerClick }) {
             </h2>
 
             {/* Formularz filtrowania */}
-            <div className="filter-form mt-4 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg mb-4 shadow">
+            <div className="filter-form mt-4 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg mb-4 shadow text-black">
                 <h3 className="text-lg font-semibold mb-2">Filtry:</h3>
                 <div className="grid grid-cols-2 gap-4">
                     {/* Wybór lokalizacji */}

@@ -47,7 +47,7 @@ export default function WorkoutForm({ selectedDate, onWorkoutAdded }) {
                     type="text"
                     value={exerciseName}
                     onChange={(e) => setExerciseName(e.target.value)}
-                    className="w-full p-2 border rounded"
+                    className="w-full p-2 border rounded text-black"
                     required
                 />
             </div>
@@ -57,7 +57,7 @@ export default function WorkoutForm({ selectedDate, onWorkoutAdded }) {
                     type="number"
                     value={sets}
                     onChange={(e) => setSets(e.target.value)}
-                    className="w-full p-2 border rounded"
+                    className="w-full p-2 border rounded text-black"
                     required
                 />
             </div>
@@ -67,7 +67,7 @@ export default function WorkoutForm({ selectedDate, onWorkoutAdded }) {
                     type="number"
                     value={reps}
                     onChange={(e) => setReps(e.target.value)}
-                    className="w-full p-2 border rounded"
+                    className="w-full p-2 border rounded text-black"
                     required
                 />
             </div>
@@ -77,7 +77,7 @@ export default function WorkoutForm({ selectedDate, onWorkoutAdded }) {
                     type="number"
                     value={weight}
                     onChange={(e) => setWeight(e.target.value)}
-                    className="w-full p-2 border rounded"
+                    className="w-full p-2 border rounded text-black"
                     required
                 />
             </div>

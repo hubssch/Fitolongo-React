@@ -5,7 +5,6 @@ export default function TrainerProfile({ id, onBack }) {
     const [trainer, setTrainer] = useState(null);
     const [photos, setPhotos] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [newPhoto, setNewPhoto] = useState(null); // Do przechowywania przesłanego pliku
 
     // Pobieranie danych trenera i zdjęć
     useEffect(() => {
@@ -39,36 +38,6 @@ export default function TrainerProfile({ id, onBack }) {
         fetchTrainer();
     }, [id]);
 
-    // Obsługa przesyłania zdjęcia
-    const handlePhotoUpload = async () => {
-        if (!newPhoto) return;
-
-        const fileName = `${id}-${Date.now()}.${newPhoto.name.split('.').pop()}`;
-        const { data: storageData, error: storageError } = await supabase.storage
-            .from('trainer-photos')
-            .upload(fileName, newPhoto);
-
-        if (storageError) {
-            console.error('Błąd przy przesyłaniu pliku:', storageError);
-            return;
-        }
-
-        const photoUrl = `${supabase.storage
-            .from('trainer-photos')
-            .getPublicUrl(fileName).data.publicUrl}`;
-
-        const { error: insertError } = await supabase
-            .from('trainer_photos')
-            .insert({ trainer_id: id, photo_url: photoUrl });
-
-        if (insertError) {
-            console.error('Błąd przy zapisywaniu URL zdjęcia:', insertError);
-        } else {
-            setPhotos((prevPhotos) => [...prevPhotos, { photo_url: photoUrl }]);
-            setNewPhoto(null);
-        }
-    };
-
     if (loading) return <div className="text-center p-6">Ładowanie danych trenera...</div>;
     if (!trainer) return <div className="text-center p-6">Nie znaleziono danych trenera.</div>;
 
@@ -80,23 +49,30 @@ export default function TrainerProfile({ id, onBack }) {
             >
                 Powrót
             </button>
-            <h2 className="text-2xl font-semibold mb-4">{trainer.first_name} {trainer.last_name}</h2>
-            {trainer.profile_image_url ? (
-                <img
-                    src={trainer.profile_image_url}
-                    alt="Zdjęcie profilowe"
-                    className="w-40 h-40 rounded-full mx-auto mb-4"
-                />
-            ) : (
-                <div className="w-40 h-40 rounded-full mx-auto mb-4 bg-gray-300 dark:bg-gray-600" />
-            )}
 
-            <p><strong>Pseudonim:</strong> {trainer.nickname}</p>
-            <p><strong>Lokalizacja:</strong> {trainer.location}</p>
-            <p><strong>Siłownia:</strong> {trainer.gym_location}</p>
-            <p><strong>Specjalizacja:</strong> {trainer.specialization}</p>
-            <p><strong>Doświadczenie:</strong> {trainer.experience} lata</p>
-            <p><strong>Ocena:</strong> {trainer.ratings}</p>
+            <div className="flex flex-col md:flex-row items-start md:items-start">
+                {trainer.profile_image_url ? (
+                    <img
+                        src={trainer.profile_image_url}
+                        alt="Zdjęcie profilowe"
+                        className="w-40 h-40 md:w-60 md:h-60 mb-4 md:mb-0 border-4 border-blue-500 rounded-lg shadow-lg hover:scale-105 mr-4"
+                    />
+                ) : (
+                    <div className="w-40 h-40 md:w-60 md:h-60 rounded-full bg-gray-300 dark:bg-gray-600 mr-4" />
+                )}
+                <div className="flex-2">
+                    <h2 className="text-2xl font-semibold mb-4">{trainer.first_name} {trainer.last_name}</h2>
+                    <p><strong>Pseudonim:</strong> {trainer.nickname}</p>
+                    <p><strong>Lokalizacja:</strong> {trainer.location}</p>
+                    <p><strong>Siłownia:</strong> {trainer.gym_location}</p>
+                    <p><strong>Specjalizacja:</strong> {trainer.specialization}</p>
+                    <p><strong>Doświadczenie:</strong> {trainer.experience} lata</p>
+                    <p><strong>Ocena:</strong> {trainer.ratings}</p>
+                </div>
+            </div>
+            <div className="mt-4">
+
+            </div>
 
             <h3 className="text-xl font-semibold mt-6">Galeria zdjęć</h3>
             <div className="grid grid-cols-2 gap-4 mt-4">
@@ -112,22 +88,6 @@ export default function TrainerProfile({ id, onBack }) {
                 ) : (
                     <p>Brak zdjęć w galerii.</p>
                 )}
-            </div>
-
-            <div className="mt-6">
-                <h4 className="font-semibold">Dodaj nowe zdjęcie:</h4>
-                <input
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => setNewPhoto(e.target.files[0])}
-                    className="mt-2"
-                />
-                <button
-                    onClick={handlePhotoUpload}
-                    className="bg-green-500 text-white px-4 py-2 rounded-md mt-4"
-                >
-                    Prześlij zdjęcie
-                </button>
             </div>
         </div>
     );
