@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../supabaseClient';
+import Messaging from './Messaging';
 
 export default function TrainerProfile({ id, onBack }) {
     const [trainer, setTrainer] = useState(null);
@@ -49,7 +50,7 @@ export default function TrainerProfile({ id, onBack }) {
             >
                 Powrót
             </button>
-
+            <Messaging />
             <div className="flex flex-col md:flex-row items-start md:items-start">
                 {trainer.profile_image_url ? (
                     <img
