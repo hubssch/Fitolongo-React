@@ -9,6 +9,8 @@ import ExerciseJournal from './Components/ExerciseJournal';
 import TrainersList from './Components/TrainerList';
 import TrainerProfile from './Components/TrainerProfile';
 import RegisterButton from './Components/RegisterButton';
+import UserProfile from './Components/UserProfile';
+import UserProfileButton from './Components/UserProfileButton';
 
 function App() {
   const [activeView, setActiveView] = useState('home');
@@ -20,6 +22,7 @@ function App() {
     setActiveTrainerId(id);
     setActiveView('trainerProfile');
   };
+  const showUserProfile = () => setActiveView('userProfile')
   const goHome = () => setActiveView('home');
 
   return (
@@ -30,6 +33,7 @@ function App() {
 
       {activeView === 'home' && (
         <div className="container mx-auto p-4">
+          <UserProfileButton onClick={showUserProfile}/>
           <ExerciseBox onClick={showExerciseJournal} />
           <TrainersBox onClick={showTrainersList} />
         </div>
@@ -39,6 +43,7 @@ function App() {
       {activeView === 'trainers' && (
         <TrainersList onBack={goHome} onTrainerClick={showTrainerProfile} />
       )}
+      {activeView === 'userProfile' && <UserProfile onBack={goHome} />}
       {activeView === 'trainerProfile' && (
         <TrainerProfile id={activeTrainerId} onBack={() => setActiveView('trainers')} />
       )}
