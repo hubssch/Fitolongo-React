@@ -11,10 +11,15 @@ export default function WorkoutForm({ selectedDate, onWorkoutAdded }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        // Tworzenie nowej daty w UTC
+        const dateUTC = new Date(Date.UTC(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate()));
+
+        console.log('Data UTC:', dateUTC); // Debugowanie daty
+
         // Zapisz dane w Supabase
         const { data, error } = await supabase.from('workouts').insert([
             {
-                date: selectedDate,
+                date: dateUTC,
                 exercise_name: exerciseName,
                 sets: parseInt(sets),
                 reps: parseInt(reps),
