@@ -1,5 +1,5 @@
 // src/App.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import Header from './Components/Header';
 import ExerciseBox from './Components/ExerciseBox';
@@ -11,18 +11,45 @@ import TrainerProfile from './Components/TrainerProfile';
 import RegisterButton from './Components/RegisterButton';
 import UserProfile from './Components/UserProfile';
 import UserProfileButton from './Components/UserProfileButton';
+import UserSearch from './Components/UserSearch';
+import { supabase } from './supabaseClient';
 
 function App() {
   const [activeView, setActiveView] = useState('home');
-  const [activeTrainerId, setActiveTrainerId] = useState(null);
+  const [activeUserId, setActiveUserId] = useState(null); // ID zalogowanego lub wyszukiwanego użytkownika
+  const [loggedInUserId, setLoggedInUserId] = useState(null); // ID zalogowanego użytkownika
 
+  // Pobieranie danych zalogowanego użytkownika przy uruchomieniu aplikacji
+  useEffect(() => {
+    const fetchLoggedInUser = async () => {
+      const { data: user, error } = await supabase.auth.getUser();
+      if (user) {
+        setLoggedInUserId(user.id);
+      }
+      if (error) {
+        console.error('Błąd podczas pobierania użytkownika:', error);
+      }
+    };
+
+    fetchLoggedInUser();
+  }, []);
+
+  // Funkcje do zmiany widoków
   const showExerciseJournal = () => setActiveView('exercise');
   const showTrainersList = () => setActiveView('trainers');
   const showTrainerProfile = (id) => {
-    setActiveTrainerId(id);
+    setActiveUserId(id);
     setActiveView('trainerProfile');
   };
-  const showUserProfile = () => setActiveView('userProfile')
+  const showUserProfile = () => {
+    setActiveUserId(loggedInUserId); // Wyświetlanie profilu zalogowanego użytkownika
+    setActiveView('userProfile');
+  };
+  const showUserSearch = () => setActiveView('search'); // Widok wyszukiwania użytkowników
+  const showSelectedUserProfile = (id) => {
+    setActiveUserId(id); // Wyświetlanie profilu wybranego użytkownika
+    setActiveView('userProfile');
+  };
   const goHome = () => setActiveView('home');
 
   return (
@@ -33,7 +60,13 @@ function App() {
 
       {activeView === 'home' && (
         <div className="container mx-auto p-4">
-          <UserProfileButton onClick={showUserProfile}/>
+          <UserProfileButton onClick={showUserProfile} />
+          <button
+            onClick={showUserSearch}
+            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 mb-4"
+          >
+            Wyszukaj użytkownika
+          </button>
           <ExerciseBox onClick={showExerciseJournal} />
           <TrainersBox onClick={showTrainersList} />
         </div>
@@ -43,9 +76,14 @@ function App() {
       {activeView === 'trainers' && (
         <TrainersList onBack={goHome} onTrainerClick={showTrainerProfile} />
       )}
-      {activeView === 'userProfile' && <UserProfile onBack={goHome} />}
+      {activeView === 'userProfile' && (
+        <UserProfile id={activeUserId} onBack={goHome} />
+      )}
       {activeView === 'trainerProfile' && (
-        <TrainerProfile id={activeTrainerId} onBack={() => setActiveView('trainers')} />
+        <TrainerProfile id={activeUserId} onBack={() => setActiveView('trainers')} />
+      )}
+      {activeView === 'search' && (
+        <UserSearch onUserSelect={showSelectedUserProfile} onBack={goHome} />
       )}
     </div>
   );

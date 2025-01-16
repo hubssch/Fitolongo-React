@@ -1,69 +1,41 @@
 import React, { useState, useEffect } from "react";
-import { supabase } from '../supabaseClient';
+import { useParams } from "react-router-dom"; // Import useParams
+import { supabase } from "../supabaseClient";
 
 const UserProfile = ({ onBack }) => {
+  const { id } = useParams(); // Pobierz ID użytkownika z URL
   const [user, setUser] = useState(null); // Dane użytkownika
   const [formData, setFormData] = useState(null); // Dane do edycji
   const [isEditing, setIsEditing] = useState(false); // Stan edycji
   const [isLoading, setIsLoading] = useState(true); // Stan ładowania
 
   // Pobierz dane użytkownika z bazy danych
-  useEffect(() => {
-    const fetchUser = async () => {
-      const { data, error } = await supabase
-        .from("user_profiles")
-        .select("*")
-        .eq("id", 1) // Pobierz użytkownika o ID 1
-        .single();
 
-      if (error) {
-        console.error("Błąd podczas pobierania danych:", error);
-      } else {
-        setUser(data);
-        setFormData(data); // Zainicjalizuj dane do edycji
-      }
-      setIsLoading(false);
-    };
+useEffect(() => {
+  const fetchUser = async () => {
 
-    fetchUser();
-  }, []);
+    const {data: userData, error: userError} = await supabase
+    .from('user_profiles')
+    .select('*')
+    .eq('id', 1)
+    .single();
 
-  // Aktualizacja danych w bazie
-  const handleSave = async () => {
-    const { data, error } = await supabase
-      .from("user_profiles")
-      .update({
-        first_name: formData.first_name,
-        last_name: formData.last_name,
-        profile_picture: formData.profile_picture,
-        personal_records: formData.personal_records,
-        description: formData.description,
-        favorite_sports: formData.favorite_sports,
-        gallery: formData.gallery,
-      })
-      .eq("id", 1); // Aktualizuj użytkownika o ID 1
-
-    if (error) {
-      console.error("Błąd podczas zapisywania danych:", error);
-    } else {
-      setUser(data[0]); // Zaktualizuj dane użytkownika w stanie
-      setIsEditing(false);
+    if(userError) {
+      console.error("Bład przy pobieraniu danych uzytkownika")
     }
-  };
+    else {
+      setUser(userData)
+    }
 
-  // Obsługa zmian w formularzu
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  if (isLoading) {
-    return <div>Ładowanie...</div>;
+    setIsLoading(false)
   }
 
-  if (!user) {
-    return <div>Nie znaleziono użytkownika.</div>;
-  }
+  fetchUser()
+}, [id]) 
+
+if (isLoading) return <div className="text-center p-6">Ładowanie danych uzytkownika...</div>;
+    if (!user) return <div className="text-center p-6">Nie znaleziono danych uzytkownika.</div>;
+
 
   return (
     <div className="p-3 max-w-2xl mx-auto rounded-xl shadow-md space-y-6">
