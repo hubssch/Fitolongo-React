@@ -81,10 +81,10 @@ const UserProfile = ({ onBack }) => {
           className="w-24 h-24 rounded-full object-cover border"
         />
         <div>
-          <h1 className="text-2xl font-bold text-left">
+          <h1 className="text-2xl font-bold text-left dark:text-white">
             {user.first_name} {user.last_name}
           </h1>
-          <p className="text-gray-700 text-left">{user.description}</p>
+          <p className="text-gray-700 dark:text-white text-left">{user.description}</p>
         </div>
       </div>
 
@@ -138,17 +138,17 @@ const UserProfile = ({ onBack }) => {
       ) : (
         <div className="space-y-6">
           <div>
-            <h2 className="text-xl font-semibold text-left">
+            <h2 className="text-xl font-semibold text-left dark:text-white">
               Personal Records:
             </h2>
-            <p className="text-gray-700 text-left">{user.personal_records}</p>
+            <p className="text-gray-700 dark:text-white text-left">{user.personal_records}</p>
           </div>
 
           <div>
-            <h2 className="text-xl font-semibold text-left">
+            <h2 className="text-xl font-semibold text-left dark:text-white">
               Ulubione Dyscypliny:
             </h2>
-            <ul className="list-disc list-inside text-left">
+            <ul className="list-disc list-inside text-left dark:text-white">
               {user.favorite_sports.map((sport, index) => (
                 <li key={index}>{sport}</li>
               ))}
@@ -156,7 +156,7 @@ const UserProfile = ({ onBack }) => {
           </div>
 
           <div>
-            <h2 className="text-xl font-semibold">Galeria Zdjęć:</h2>
+            <h2 className="text-xl font-semibold dark:text-white">Galeria Zdjęć:</h2>
             <div className="grid grid-cols-3 gap-4">
               {user.gallery.map((imgUrl, index) => (
                 <img
