@@ -3,10 +3,10 @@ import { supabase } from '../supabaseClient';
 
 export default function UserProfileButton({onClick}) {
     return (
-        <div className='' 
+        <button className='border-solid border-2 border-green-500 rounded p-4 dark:text-white ' 
             onClick={onClick}
-        >
+        >   
             Check your profile here!
-        </div>
+        </button>
     );
 }
