@@ -4,7 +4,7 @@ import WorkoutForm from './WorkoutForm';
 import { supabase } from '../supabaseClient';
 import { format } from 'date-fns';
 
-export default function ExerciseJournal() {
+export default function ExerciseJournal({ onBack }) {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [workouts, setWorkouts] = useState([]);
     const [editingWorkout, setEditingWorkout] = useState(null);
@@ -36,6 +36,12 @@ export default function ExerciseJournal() {
 
     return (
         <div className="exercise-journal p-4 bg-gray-100 dark:bg-gray-800 dark:text-white">
+            <button
+                className="text-green-500 dark:text-green-300 mb-4"
+                onClick={onBack}
+            >
+                Powrót
+            </button>
             <Calendar onDayClick={handleDayClick} />
             <WorkoutForm selectedDate={selectedDate} onWorkoutAdded={handleWorkoutAdded} editingWorkout={editingWorkout} />
             <div className="mt-4">
