@@ -13,6 +13,8 @@ import UserProfile from './Components/UserProfile';
 import UserProfileButton from './Components/UserProfileButton';
 import TrainerLogin from './Components/TrainerLogin'; // Import nowego komponentu
 import TrainerRegistration from './Components/TrainerRegistration'; // Import komponentu rejestracji
+import EditTrainerProfile from './Components/EditTrainerProfile';
+
 
 function App() {
   const [activeView, setActiveView] = useState('home');
@@ -48,6 +50,7 @@ function App() {
   const showTrainerLogin = () => setActiveView('trainerLogin');
   const showTrainerRegistration = () => setActiveView('trainerRegistration'); // Dodano widok rejestracji
   const goHome = () => setActiveView('home');
+  const showEditTrainerProfile = () => setActiveView('editTrainerProfile');
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-all duration-300">
