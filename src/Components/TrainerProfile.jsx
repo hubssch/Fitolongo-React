@@ -82,12 +82,14 @@ export default function TrainerProfile({ id, onBack }) {
 
     return (
         <>
-            <button
-                className="text-green-500 dark:text-green-300 mb-4 flex justify-center"
-                onClick={onBack}
-            >
-                Powrót
-            </button>
+            <div className="flex justify-center w-full">
+                <button
+                    className="text-green-500 dark:text-green-300 mb-4"
+                    onClick={onBack}
+                >
+                    Powrót
+                </button>
+            </div>
 
             {successMessage && (
                 <div className="p-3 bg-green-500 text-white text-center rounded">
