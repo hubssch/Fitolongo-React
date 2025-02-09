@@ -14,6 +14,7 @@ import TrainerLogin from './Components/TrainerLogin'; // Import nowego komponent
 import TrainerRegistration from './Components/TrainerRegistration'; // Import komponentu rejestracji
 import EditTrainerProfile from './Components/EditTrainerProfile';
 import Registration from './Components/Registration';
+import Login from './Components/Login';
 
 
 function App() {
@@ -47,6 +48,7 @@ function App() {
     setActiveTrainerId(id);
     setActiveView('trainerProfile');
   };
+  const showLogin = () => setActiveView('login')
   const showTrainerLogin = () => setActiveView('trainerLogin');
   const showTrainerRegistration = () => setActiveView('trainerRegistration'); // Dodano widok rejestracji
   const showRegistration = () => setActiveView('registration'); // Dodano widok rejestracji
@@ -66,8 +68,14 @@ function App() {
         </button>
       ) : (
         <div className="flex space-x-4 mb-4">
-          <button
+          {/* <button
             onClick={showTrainerLogin}
+            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+          >
+            Zaloguj się
+          </button> */}
+          <button
+            onClick={showLogin}
             className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
           >
             Zaloguj się
@@ -103,12 +111,15 @@ function App() {
       {activeView === 'trainerProfile' && (
         <TrainerProfile id={activeTrainerId} onBack={() => setActiveView('trainers')} />
       )}
-      {activeView === 'trainerLogin' && (
+      {/* {activeView === 'trainerLogin' && (
         <TrainerLogin onLogin={handleLogin} onBack={goHome} />
+      )} */}
+      {activeView === 'login' && (
+        <Login onBack={goHome} />
       )}
-      {activeView === 'trainerRegistration' && (
+      {/* {activeView === 'trainerRegistration' && (
         <TrainerRegistration onBack={goHome} />
-      )}
+      )} */}
       {activeView === 'registration' && (
         <Registration onBack={goHome} />
       )}
