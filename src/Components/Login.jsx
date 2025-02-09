@@ -19,11 +19,11 @@ export default function Login({ onBack }) {
                     </button>
                     <div className="flex flex-col items-center space-y-4">
                     <button onClick={showUserLogin}
-                     className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-green-600">
+                     className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-800">
                         Zaloguj się jako użytkownik
                     </button>
                     <button onClick={showTrainerLogin}
-                     className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-green-600">
+                     className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-800">
                         Zaloguj się jako trener
                     </button>
                     </div>
