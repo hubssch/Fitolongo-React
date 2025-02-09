@@ -16,7 +16,6 @@ import EditTrainerProfile from './Components/EditTrainerProfile';
 import Registration from './Components/Registration';
 import Login from './Components/Login';
 
-
 function App() {
   const [activeView, setActiveView] = useState('home');
   const [activeTrainerId, setActiveTrainerId] = useState(null);
@@ -67,25 +66,13 @@ function App() {
           Wyloguj się
         </button>
       ) : (
-        <div className="flex space-x-4 mb-4">
-          {/* <button
-            onClick={showTrainerLogin}
-            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-          >
-            Zaloguj się
-          </button> */}
+        <div className="flex justify-center space-x-4 mb-4">
           <button
             onClick={showLogin}
             className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
           >
             Zaloguj się
           </button>
-          {/* <button
-            onClick={showTrainerRegistration}
-            className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600"
-          >
-            Zarejestruj się
-          </button> */}
           <button
             onClick={showRegistration}
             className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600"
@@ -111,15 +98,9 @@ function App() {
       {activeView === 'trainerProfile' && (
         <TrainerProfile id={activeTrainerId} onBack={() => setActiveView('trainers')} />
       )}
-      {/* {activeView === 'trainerLogin' && (
-        <TrainerLogin onLogin={handleLogin} onBack={goHome} />
-      )} */}
       {activeView === 'login' && (
         <Login onBack={goHome} />
       )}
-      {/* {activeView === 'trainerRegistration' && (
-        <TrainerRegistration onBack={goHome} />
-      )} */}
       {activeView === 'registration' && (
         <Registration onBack={goHome} />
       )}

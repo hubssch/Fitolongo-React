@@ -18,12 +18,20 @@ export default function Registration({ onBack }) {
                     >
                         Powrót
                     </button>
-                    <button onClick={showUserRegistration}>
-                        Zarejestruj się jako użytkownik
-                    </button>
-                    <button onClick={showTrainerRegistration}>
-                        Zarejestruj się jako trener
-                    </button>
+                    <div className="flex flex-col items-center space-y-4">
+                        <button
+                            onClick={showUserRegistration}
+                            className="bg-green-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+                        >
+                            Zarejestruj się jako użytkownik
+                        </button>
+                        <button
+                            onClick={showTrainerRegistration}
+                            className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600"
+                        >
+                            Zarejestruj się jako trener
+                        </button>
+                    </div>
                 </>
             )}
             {activeView === 'user' && <UserRegistration onBack={onBack} />}

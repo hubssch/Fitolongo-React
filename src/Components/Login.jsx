@@ -17,12 +17,16 @@ export default function Login({ onBack }) {
                     >
                         Powrót
                     </button>
-                    <button onClick={showUserLogin}>
+                    <div className="flex flex-col items-center space-y-4">
+                    <button onClick={showUserLogin}
+                     className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-green-600">
                         Zaloguj się jako użytkownik
                     </button>
-                    <button onClick={showTrainerLogin}>
+                    <button onClick={showTrainerLogin}
+                     className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-green-600">
                         Zaloguj się jako trener
                     </button>
+                    </div>
                 </>
             )}
             {activeView === 'user' && <UserLogin onBack={onBack} />}

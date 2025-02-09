@@ -2,25 +2,25 @@ import React, { useState, useEffect } from "react";
 import { supabase } from '../supabaseClient';
 
 const UserProfile = ({ onBack }) => {
-  const [user, setUser] = useState(null); // Dane użytkownika
-  const [formData, setFormData] = useState(null); // Dane do edycji
-  const [isEditing, setIsEditing] = useState(false); // Stan edycji
-  const [isLoading, setIsLoading] = useState(true); // Stan ładowania
+  const [user, setUser] = useState(null);
+  const [formData, setFormData] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [successMessage, setSuccessMessage] = useState(""); // Nowy stan na komunikat
 
-  // Pobierz dane użytkownika z bazy danych
   useEffect(() => {
     const fetchUser = async () => {
       const { data, error } = await supabase
         .from("user_profiles")
         .select("*")
-        .eq("id", 1) // Pobierz użytkownika o ID 1
+        .eq("id", 1)
         .single();
 
       if (error) {
         console.error("Błąd podczas pobierania danych:", error);
       } else {
         setUser(data);
-        setFormData(data); // Zainicjalizuj dane do edycji
+        setFormData(data);
       }
       setIsLoading(false);
     };
@@ -28,9 +28,8 @@ const UserProfile = ({ onBack }) => {
     fetchUser();
   }, []);
 
-  // Aktualizacja danych w bazie
   const handleSave = async () => {
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from("user_profiles")
       .update({
         first_name: formData.first_name,
@@ -41,17 +40,18 @@ const UserProfile = ({ onBack }) => {
         favorite_sports: formData.favorite_sports,
         gallery: formData.gallery,
       })
-      .eq("id", 1); // Aktualizuj użytkownika o ID 1
+      .eq("id", 1);
 
     if (error) {
       console.error("Błąd podczas zapisywania danych:", error);
     } else {
-      setUser(data[0]); // Zaktualizuj dane użytkownika w stanie
+      setUser(formData); // Zaktualizuj stan użytkownika
       setIsEditing(false);
+      setSuccessMessage("Twój profil został zmieniony! ✅"); // Ustawienie komunikatu sukcesu
+      setTimeout(() => setSuccessMessage(""), 3000); // Ukrycie po 3 sekundach
     }
   };
 
-  // Obsługa zmian w formularzu
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -73,6 +73,13 @@ const UserProfile = ({ onBack }) => {
       >
         Powrót
       </button>
+
+      {/* Komunikat o sukcesie */}
+      {successMessage && (
+        <div className="p-3 bg-green-500 text-white text-center rounded">
+          {successMessage}
+        </div>
+      )}
 
       <div className="flex items-center space-x-4">
         <img
@@ -154,21 +161,7 @@ const UserProfile = ({ onBack }) => {
               ))}
             </ul>
           </div>
-
-          <div>
-            <h2 className="text-xl font-semibold dark:text-white">Galeria Zdjęć:</h2>
-            <div className="grid grid-cols-3 gap-4">
-              {user.gallery.map((imgUrl, index) => (
-                <img
-                  key={index}
-                  src={imgUrl}
-                  alt={`Zdjęcie ${index + 1}`}
-                  className="w-full h-auto rounded shadow"
-                />
-              ))}
-            </div>
-          </div>
-
+          
           <button
             onClick={() => setIsEditing(true)}
             className="mt-4 bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600"
