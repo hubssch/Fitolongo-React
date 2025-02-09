@@ -8,12 +8,12 @@ import DarkModeToggle from './Components/DarkModeToggle';
 import ExerciseJournal from './Components/ExerciseJournal';
 import TrainersList from './Components/TrainerList';
 import TrainerProfile from './Components/TrainerProfile';
-import RegisterButton from './Components/RegisterButton';
 import UserProfile from './Components/UserProfile';
 import UserProfileButton from './Components/UserProfileButton';
 import TrainerLogin from './Components/TrainerLogin'; // Import nowego komponentu
 import TrainerRegistration from './Components/TrainerRegistration'; // Import komponentu rejestracji
 import EditTrainerProfile from './Components/EditTrainerProfile';
+import Registration from './Components/Registration';
 
 
 function App() {
@@ -49,6 +49,7 @@ function App() {
   };
   const showTrainerLogin = () => setActiveView('trainerLogin');
   const showTrainerRegistration = () => setActiveView('trainerRegistration'); // Dodano widok rejestracji
+  const showRegistration = () => setActiveView('registration'); // Dodano widok rejestracji
   const goHome = () => setActiveView('home');
   const showEditTrainerProfile = () => setActiveView('editTrainerProfile');
 
@@ -71,8 +72,14 @@ function App() {
           >
             Zaloguj się
           </button>
-          <button
+          {/* <button
             onClick={showTrainerRegistration}
+            className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600"
+          >
+            Zarejestruj się
+          </button> */}
+          <button
+            onClick={showRegistration}
             className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600"
           >
             Zarejestruj się
@@ -101,6 +108,9 @@ function App() {
       )}
       {activeView === 'trainerRegistration' && (
         <TrainerRegistration onBack={goHome} />
+      )}
+      {activeView === 'registration' && (
+        <Registration onBack={goHome} />
       )}
     </div>
   );

@@ -1,5 +1,3 @@
-import RegisterButton from "./RegisterButton";
-
 export default function Header() {
     return (
         <div>
