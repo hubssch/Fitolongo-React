@@ -2,22 +2,21 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from '../supabaseClient';
 
 export default function TrainerProfile({ id, onBack }) {
-    const [trainer, setTrainer] = useState(null); // Dane trenera
-    const [formData, setFormData] = useState(null); // Dane do edycji
-    const [isEditing, setIsEditing] = useState(false); // Stan edycji
-    const [isLoading, setIsLoading] = useState(true); // Stan ładowania
-    const [isAuthorized, setIsAuthorized] = useState(false); // Czy użytkownik może edytować profil
+    const [trainer, setTrainer] = useState(null);
+    const [formData, setFormData] = useState(null);
+    const [isEditing, setIsEditing] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
+    const [successMessage, setSuccessMessage] = useState(""); // Komunikat sukcesu
+    const [isAuthorized, setIsAuthorized] = useState(false);
 
     useEffect(() => {
         const fetchTrainer = async () => {
             try {
-                // Pobranie zalogowanego użytkownika (może być null, jeśli niezalogowany)
                 const { data: user, error: userError } = await supabase.auth.getUser();
                 if (userError) {
                     console.error('Błąd podczas pobierania użytkownika:', userError);
                 }
 
-                // Pobranie danych trenera
                 const { data, error } = await supabase
                     .from('trainers')
                     .select('*')
@@ -30,8 +29,6 @@ export default function TrainerProfile({ id, onBack }) {
                 } else {
                     setTrainer(data);
                     setFormData(data);
-
-                    // Sprawdzenie uprawnień do edycji
                     if (user && user.user && user.user.id === data.id) {
                         setIsAuthorized(true);
                     } else {
@@ -49,7 +46,7 @@ export default function TrainerProfile({ id, onBack }) {
     }, [id]);
 
     const handleSave = async () => {
-        const { data, error } = await supabase
+        const { error } = await supabase
             .from('trainers')
             .update({
                 first_name: formData.first_name,
@@ -59,15 +56,19 @@ export default function TrainerProfile({ id, onBack }) {
                 gym_location: formData.gym_location,
                 specialization: formData.specialization,
                 experience: formData.experience,
-                ratings: formData.ratings,
             })
             .eq('id', id);
 
         if (error) {
             console.error('Błąd podczas zapisywania danych:', error);
         } else {
-            setTrainer(data[0]);
+            setTrainer(formData); // Aktualizuje lokalny stan trenera
             setIsEditing(false);
+            setSuccessMessage("Twój profil został zmieniony! ✅"); // Komunikat o sukcesie
+            setTimeout(() => {
+                setSuccessMessage("");
+                onBack(); // Powrót do ekranu profilu
+            }, 2000); // Po 2 sekundach przechodzimy do profilu
         }
     };
 
@@ -87,6 +88,13 @@ export default function TrainerProfile({ id, onBack }) {
             >
                 Powrót
             </button>
+
+            {successMessage && (
+                <div className="p-3 bg-green-500 text-white text-center rounded">
+                    {successMessage}
+                </div>
+            )}
+
             <div className="p-6 max-w-4xl mx-auto rounded-xl shadow-md space-y-6 bg-white dark:bg-gray-800">
                 <div className="flex items-center space-x-4">
                     <img
@@ -160,14 +168,6 @@ export default function TrainerProfile({ id, onBack }) {
                             value={formData.experience}
                             onChange={handleInputChange}
                             placeholder="Doświadczenie (lata)"
-                            className="block w-full p-3 border rounded"
-                        />
-                        <input
-                            type="number"
-                            name="ratings"
-                            value={formData.ratings}
-                            onChange={handleInputChange}
-                            placeholder="Ocena"
                             className="block w-full p-3 border rounded"
                         />
                         <button
