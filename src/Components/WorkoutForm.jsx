@@ -39,7 +39,8 @@ export default function WorkoutForm({ selectedDate, onWorkoutAdded, editingWorko
             reps: parseInt(reps),
             weight: parseFloat(weight),
             personal_record: personalRecord,
-            date: dateUTC
+            date: dateUTC,
+            user_id: localStorage.getItem('user_id')
         };
 
         if (editingWorkout) {

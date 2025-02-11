@@ -22,6 +22,7 @@ export default function UserLogin({ onBack, onLogin }) {
       if (authError) throw authError;
 
       const userId = authData.user.id;
+      localStorage.setItem('user_id', authData.user.id)
 
       // Sprawdzenie, czy użytkownik jest trenerem
       const { data: userData, error: userError } = await supabase

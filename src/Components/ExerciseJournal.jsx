@@ -16,10 +16,12 @@ export default function ExerciseJournal({ onBack }) {
 
     const fetchWorkouts = async (date) => {
         const formattedDate = format(date, 'yyyy-MM-dd');
+        const user_id = localStorage.getItem('user_id')
         const { data, error } = await supabase
             .from('workouts')
             .select('*')
             .eq('date', formattedDate)
+            .eq('user_id', user_id)
             .order('id', { ascending: true });
         if (!error) setWorkouts(data);
     };
