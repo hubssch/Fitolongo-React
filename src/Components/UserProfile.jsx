@@ -82,11 +82,6 @@ const UserProfile = ({ onBack }) => {
       )}
 
       <div className="flex items-center space-x-4">
-        <img
-          src={user.profile_picture}
-          alt="Zdjęcie profilowe"
-          className="w-24 h-24 rounded-full object-cover border"
-        />
         <div>
           <h1 className="text-2xl font-bold text-left dark:text-white">
             {user.first_name} {user.last_name}
