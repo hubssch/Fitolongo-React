@@ -121,17 +121,6 @@ export default function TrainersList({ onBack, onTrainerClick }) {
                         onChange={handleFilterChange}
                         className="p-2 rounded-md"
                     />
-
-                    {/* Ocena */}
-                    <input
-                        type="number"
-                        step="0.1"
-                        name="rating"
-                        placeholder="Ocena minimalna"
-                        value={filters.rating}
-                        onChange={handleFilterChange}
-                        className="p-2 rounded-md"
-                    />
                 </div>
             </div>
 
