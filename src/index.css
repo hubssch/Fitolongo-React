@@ -10,3 +10,17 @@
 body {
   @apply bg-gray-200 dark:bg-gray-800;
 }
+
+
+.just-another-hand-regular {
+  font-family: 'Just Another Hand', cursive;
+  font-weight: 400; /* Wartość dla regularnej grubości */
+}
+
+
+.inter-<uniquifier> {
+  font-family: "Inter", serif;
+  font-optical-sizing: auto;
+  font-weight: <weight>;
+  font-style: normal;
+}

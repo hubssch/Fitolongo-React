@@ -1,8 +1,12 @@
+import React from 'react';
 import trainerImage from '../images/undraw_personal_trainer_re_cnua.svg';
 
-export default function TrainersBox() {
+export default function TrainersBox({ onClick }) {
     return (
-        <div className="bg-white p-6 rounded-lg shadow-md flex flex-col items-center text-center hover:scale-105 transition-transform duration-300 ease-in-out mt-6 dark:bg-gray-900 dark:text-white">
+        <div
+            onClick={onClick} // Dodanie onClick jako obsługi kliknięcia
+            className="bg-white p-6 rounded-lg shadow-md flex flex-col items-center text-center hover:scale-105 cursor-pointer transition-transform duration-300 ease-in-out mt-6 dark:bg-gray-900 dark:text-white"
+        >
             <h1 className="text-2xl font-semibold mb-2 text-green-800 dark:text-green-400">
                 Oni zrobią z ciebie <br />
                 Wielkiego Chłopa

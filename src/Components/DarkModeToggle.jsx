@@ -28,7 +28,7 @@ export default function DarkModeToggle() {
     return (
         <button
             onClick={toggleDarkMode}
-            className="p-2 rounded-full bg-gray-200 text-black dark:bg-gray-800 dark:text-white transition-all duration-300"
+            className="p-2 rounded-full bg-gray-200 hover:scale-105 text-black dark:bg-gray-800 dark:text-white transition-all duration-300"
         >
             {isDarkMode ? '🌞 Jasny' : '🌙 Ciemny'}
         </button>
