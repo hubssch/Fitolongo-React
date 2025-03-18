@@ -56,6 +56,7 @@ export default function TrainerProfile({ id, onBack }) {
                 gym_location: formData.gym_location,
                 specialization: formData.specialization,
                 experience: formData.experience,
+                description: formData.description
             })
             .eq('id', id);
 
@@ -205,6 +206,15 @@ export default function TrainerProfile({ id, onBack }) {
                             </h2>
                             <p className="text-gray-700 dark:text-white text-left">
                                 {trainer.experience} lata
+                            </p>
+                        </div>
+
+                        <div>
+                            <h2 className="text-2xl font-semibold text-left dark:text-white">
+                                Opis:
+                            </h2>
+                            <p className="text-gray-700 dark:text-white text-left">
+                                {trainer.description}
                             </p>
                         </div>
 

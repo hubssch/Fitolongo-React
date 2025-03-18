@@ -115,9 +115,8 @@ export default function EditTrainerProfile({ trainerId, onBack }) {
 
                 <button
                     type="submit"
-                    className={`${
-                        loading ? 'bg-gray-500' : 'bg-blue-500 hover:bg-blue-600'
-                    } text-white py-2 px-4 rounded`}
+                    className={`${loading ? 'bg-gray-500' : 'bg-blue-500 hover:bg-blue-600'
+                        } text-white py-2 px-4 rounded`}
                     disabled={loading}
                 >
                     {loading ? 'Aktualizowanie...' : 'Zapisz zmiany'}
