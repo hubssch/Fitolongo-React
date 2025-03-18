@@ -58,7 +58,6 @@ function App() {
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-all duration-300">
       <Header />
-      <DarkModeToggle />
       {user ? (
         <div className="flex justify-center space-x-4 mb-4">
           <button
